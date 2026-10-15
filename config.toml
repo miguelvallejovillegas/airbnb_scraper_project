@@ -1,0 +1,13 @@
+# Pesos del score (se normalizan para sumar 1)
+[weights]
+price = 0.5    # más barato por noche = mejor
+rating = 0.5   # rating ajustado por número de reseñas
+
+[score]
+prior_reviews = 10        # "m" del promedio bayesiano: cuántas reseñas vale la media global
+price_clip_quantile = 0.95  # precios por encima de este cuantil se recortan antes de normalizar
+
+[filters]
+min_reviews = 3
+min_rating = 0.0
+max_price_per_night = 0   # 0 = sin tope
