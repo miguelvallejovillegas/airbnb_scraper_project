@@ -90,3 +90,34 @@ uv run jupyter notebook notebooks/eda_medellin.ipynb
 # or re-execute headless
 uv run jupyter nbconvert --execute --to notebook --inplace notebooks/eda_medellin.ipynb
 ```
+
+### Findings (Medellín, Nov 14–16 2026, 2 adults, 1,217 listings)
+
+1. **Rating does not discriminate; review count does.** Mean rating is 4.82, median 4.87. 59% of listings with
+   5 or fewer reviews have a perfect 5.0; among listings with more than 50 reviews that share drops to 1%.
+   A 5.0 is almost always a sign of a new listing, not of superior quality. That is why the score uses a
+   Bayesian average instead of the raw rating.
+2. **Reputation is not priced in.** Correlation of price with rating, Guest Favorite and Superhost is below 0.1
+   in every case. Median price with and without Superhost differs by less than 10k COP, and Superhosts do not
+   even rate higher on average (4.819 vs 4.824). Guest Favorite is the only badge with a real signal
+   (4.92 vs 4.72 average rating).
+3. **New listings are more expensive, not cheaper.** The 375 listings without reviews (31% of the total) have a
+   median of 276k COP vs 218k for listings with history. Median price falls monotonically with review count,
+   from 226k (1–5 reviews) to 198k (300+). Cheap listings get booked and build history; expensive new ones wait.
+4. **The expensive stuff is outside the city.** The highest median prices are rural: Vereda El Noral (915k),
+   San Félix, Guarne, Copacabana and Santa Elena (306k). Laureles-Estadio, Envigado and Itagüí are among the
+   cheapest (165–170k). These are fincas and cabins for groups. Nominatim's bounding box for "Medellín" pulls in
+   neighbouring municipalities, which is what makes the dataset interesting.
+5. **Listing type explains more than any other variable.** Median per night: Habitación 161k, Apartamento 192k,
+   Loft 204k vs Cabaña 362k, Casa 403k, Vivienda 420k. Roughly 2x between the urban block and the whole-house
+   or rural block.
+6. **The 50/50 score favours private rooms.** 10 of the top 15 are rooms, all between 58k and 170k COP per
+   night, with a median of 54 reviews. Because ratings are so compressed, price ends up deciding. To get whole
+   apartments, raise the rating weight or filter by type.
+7. **The ranking is moderately stable.** Moving to 70% price keeps 8 of the default top 10; moving to 70%
+   rating keeps 6. There is a core of listings that are good on both dimensions.
+8. **Fun fact.** The most-reviewed listing has 4,028 reviews (a suite in El Poblado with coworking and gym,
+   254k per night, 4.81). The runner-up, with 931, is a coliving room at 108k.
+
+**Gap:** the scraper does not capture guest capacity or area, only the bed/bath text. Adding capacity would
+allow price per person, which would likely close much of the gap between fincas and rooms.
